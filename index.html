@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Amar Hussaini</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #04040a;
+  --surface:  #080810;
+  --card:     #0d0d18;
+  --border:   rgba(0,210,255,0.12);
+  --cyan:     #00d4ff;
+  --cyan-dim: rgba(0,212,255,0.1);
+  --violet:   #a855f7;
+  --text:     #dde1f0;
+  --muted:    #5b607a;
+  --display:  'Bebas Neue', sans-serif;
+  --body:     'Manrope', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+  cursor: none;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Cursor */
+.cursor,.cursor-ring{position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
+.cursor{width:10px;height:10px;background:var(--cyan);border-radius:50%;mix-blend-mode:screen;}
+.cursor-ring{width:34px;height:34px;border:1px solid rgba(0,212,255,0.45);border-radius:50%;z-index:9998;transition:width .22s,height .22s;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:1.4rem 3rem;background:linear-gradient(to bottom,rgba(4,4,10,.92),transparent);backdrop-filter:blur(12px);}
+.nav-logo{font-family:var(--display);font-size:1.6rem;letter-spacing:.1em;color:var(--cyan);text-decoration:none;}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--cyan);}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:8rem 3rem 5rem;position:relative;overflow:hidden;}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,212,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.04) 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%);mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%);animation:gridShift 20s linear infinite;}
+@keyframes gridShift{from{background-position:0 0,0 0;}to{background-position:64px 64px,64px 64px;}}
+.glow-orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.11;pointer-events:none;}
+.g1{width:600px;height:600px;background:var(--cyan);top:-200px;right:-100px;animation:fOrb 12s ease-in-out infinite alternate;}
+.g2{width:380px;height:380px;background:var(--violet);bottom:-80px;left:8%;animation:fOrb 16s ease-in-out infinite alternate-reverse;}
+@keyframes fOrb{from{transform:translate(0,0) scale(1);}to{transform:translate(30px,40px) scale(1.1);}}
+
+.hero-content{position:relative;z-index:2;max-width:900px;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);margin-bottom:2rem;padding:6px 16px;border:1px solid var(--border);border-radius:100px;background:var(--cyan-dim);}
+.hero-badge::before{content:'';width:6px;height:6px;background:var(--cyan);border-radius:50%;animation:blink 2s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.25;}}
+.hero-name{font-family:var(--display);font-size:clamp(5rem,13vw,13rem);line-height:.88;letter-spacing:.02em;margin-bottom:.4rem;background:linear-gradient(135deg,#fff 0%,#9da8c0 55%,var(--cyan) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:fadeUp .9s ease .2s both;}
+.hero-sub{font-family:var(--display);font-size:clamp(1.4rem,4vw,3.2rem);letter-spacing:.08em;color:var(--muted);margin-bottom:1.5rem;animation:fadeUp .9s ease .38s both;}
+.hero-desc{font-size:1.05rem;font-weight:300;color:var(--muted);max-width:460px;line-height:1.85;margin-bottom:2.5rem;animation:fadeUp .9s ease .52s both;}
+.hero-btns{display:flex;gap:1rem;animation:fadeUp .9s ease .66s both;}
+.btn-p{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;background:var(--cyan);color:#020408;font-family:var(--body);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;border:none;border-radius:4px;cursor:none;text-decoration:none;transition:box-shadow .25s,transform .2s;}
+.btn-p:hover{box-shadow:0 0 32px rgba(0,212,255,.4);transform:translateY(-2px);}
+.btn-g{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;background:transparent;color:var(--text);font-family:var(--body);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--border);border-radius:4px;cursor:none;text-decoration:none;transition:border-color .2s,color .2s;}
+.btn-g:hover{border-color:var(--cyan);color:var(--cyan);}
+.hero-stats{position:absolute;right:3rem;bottom:4rem;display:flex;flex-direction:column;gap:1.8rem;z-index:2;text-align:right;animation:fadeUp 1s ease .85s both;}
+.s-val{font-family:var(--display);font-size:2.8rem;line-height:1;color:var(--cyan);}
+.s-lbl{font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
+
+/* SHARED */
+section{position:relative;z-index:2;}
+.wrap{max-width:1200px;margin:0 auto;padding:7rem 3rem;}
+.sec-lbl{font-size:11px;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:var(--cyan);margin-bottom:.75rem;display:flex;align-items:center;gap:12px;}
+.sec-lbl::before{content:'';width:22px;height:1px;background:var(--cyan);}
+.sec-title{font-family:var(--display);font-size:clamp(2.8rem,5vw,5rem);letter-spacing:.04em;line-height:1;margin-bottom:1.5rem;}
+.divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:5rem;align-items:center;margin-top:3rem;}
+.portrait{position:relative;aspect-ratio:3/4;max-width:340px;}
+.port-bg{position:absolute;inset:0;background:linear-gradient(135deg,var(--card) 0%,#090914 100%);border:1px solid var(--border);border-radius:4px;}
+.port-scan{position:absolute;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);top:0;animation:scan 4s ease-in-out infinite;}
+@keyframes scan{0%{top:0;opacity:0;}10%{opacity:1;}90%{opacity:1;}100%{top:100%;opacity:0;}}
+.port-name{position:absolute;bottom:-1px;left:-1px;right:-1px;padding:1.5rem;background:linear-gradient(to top,rgba(4,4,10,.96),transparent);font-family:var(--display);font-size:1.8rem;letter-spacing:.05em;color:white;border-radius:0 0 4px 4px;}
+.port-name span{display:block;font-family:var(--body);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);margin-bottom:4px;}
+.corner{position:absolute;width:14px;height:14px;}
+.tl{top:-1px;left:-1px;border-top:2px solid var(--cyan);border-left:2px solid var(--cyan);}
+.tr{top:-1px;right:-1px;border-top:2px solid var(--cyan);border-right:2px solid var(--cyan);}
+.bl{bottom:-1px;left:-1px;border-bottom:2px solid var(--cyan);border-left:2px solid var(--cyan);}
+.br{bottom:-1px;right:-1px;border-bottom:2px solid var(--cyan);border-right:2px solid var(--cyan);}
+.about-body p{font-size:1.05rem;font-weight:300;color:#8892a8;margin-bottom:1.2rem;line-height:1.85;}
+.about-body p strong{color:var(--text);font-weight:600;}
+.skills{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:1.5rem;}
+.sk{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:500;color:var(--muted);}
+.sk::before{content:'';width:5px;height:5px;background:var(--cyan);border-radius:50%;flex-shrink:0;}
+
+/* WORK */
+.work-bg{background:var(--surface);}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(0,210,255,.07);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-top:3rem;}
+.pc{background:var(--card);padding:2rem;position:relative;overflow:hidden;transition:background .3s;cursor:none;}
+.pc:hover{background:#111120;}
+.pc::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--cyan-dim),transparent);opacity:0;transition:opacity .3s;}
+.pc:hover::after{opacity:1;}
+.pc.wide{grid-column:span 2;}
+.p-year{font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:1.2rem;}
+.p-name{font-family:var(--display);font-size:1.9rem;letter-spacing:.03em;margin-bottom:.5rem;position:relative;z-index:1;}
+.p-desc{font-size:.875rem;font-weight:400;color:var(--muted);line-height:1.7;margin-bottom:1.5rem;position:relative;z-index:1;}
+.p-stack{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1;}
+.stag{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border:1px solid var(--border);color:var(--cyan);border-radius:2px;background:var(--cyan-dim);}
+.p-arrow{position:absolute;bottom:1.75rem;right:1.75rem;width:34px;height:34px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--muted);transition:color .2s,border-color .2s,transform .2s;z-index:1;}
+.pc:hover .p-arrow{color:var(--cyan);border-color:var(--cyan);transform:translate(3px,-3px);}
+
+/* CONTACT */
+.contact-inner{text-align:center;max-width:680px;margin:0 auto;padding:7rem 3rem;}
+.contact-inner .sec-lbl{justify-content:center;}
+.contact-inner .sec-lbl::before{display:none;}
+.contact-inner p{color:var(--muted);font-size:1rem;font-weight:300;margin-bottom:2.5rem;}
+.c-email{font-family:var(--display);font-size:clamp(1.5rem,3vw,2.5rem);letter-spacing:.05em;color:var(--cyan);text-decoration:none;display:block;margin-bottom:2.5rem;transition:opacity .2s;}
+.c-email:hover{opacity:.65;}
+.socials{display:flex;justify-content:center;gap:2rem;}
+.socials a{font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
+.socials a:hover{color:var(--cyan);}
+
+/* FOOTER */
+footer{padding:1.5rem 3rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:var(--bg);}
+footer span{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+
+/* ════════════════════════════════
+   AI VOICE ASSISTANT
+   ════════════════════════════════ */
+#ai-orb{position:fixed;bottom:2.5rem;right:2.5rem;z-index:500;display:flex;flex-direction:column;align-items:flex-end;gap:10px;}
+
+#ai-panel{width:340px;background:#09091510;border:1px solid rgba(0,212,255,.18);border-radius:16px;overflow:hidden;display:none;flex-direction:column;box-shadow:0 24px 60px rgba(0,0,0,.7),0 0 0 1px rgba(0,212,255,.04);animation:panelIn .25s ease;backdrop-filter:blur(20px);background:#0a0a16;}
+#ai-panel.open{display:flex;}
+@keyframes panelIn{from{opacity:0;transform:translateY(10px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+
+.p-hdr{display:flex;align-items:center;gap:9px;padding:11px 14px;border-bottom:1px solid var(--border);background:#07070f;}
+.p-dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);animation:blink 2s ease-in-out infinite;}
+.p-title{flex:1;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text);}
+.p-stat{font-size:11px;color:var(--muted);}
+#btn-x{width:22px;height:22px;background:none;border:none;cursor:none;color:var(--muted);font-size:16px;display:flex;align-items:center;justify-content:center;transition:color .2s;line-height:1;padding:0;}
+#btn-x:hover{color:var(--text);}
+
+#chat-log{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:9px;max-height:250px;min-height:100px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+.msg{max-width:86%;padding:9px 12px;border-radius:10px;font-size:13px;line-height:1.6;animation:msgIn .2s ease;}
+@keyframes msgIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+.msg.ai{background:var(--card);border:1px solid var(--border);color:var(--text);align-self:flex-start;border-radius:3px 10px 10px 10px;}
+.msg.user{background:var(--cyan-dim);border:1px solid rgba(0,212,255,.2);color:var(--cyan);align-self:flex-end;border-radius:10px 3px 10px 10px;}
+.msg.thinking{background:var(--card);border:1px solid var(--border);align-self:flex-start;border-radius:3px 10px 10px 10px;}
+.dots{display:flex;gap:4px;padding:2px 0;}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:db 1.2s ease-in-out infinite;}
+.dot:nth-child(2){animation-delay:.2s;}.dot:nth-child(3){animation-delay:.4s;}
+@keyframes db{0%,80%,100%{transform:scale(.7);opacity:.4;}40%{transform:scale(1);opacity:1;}}
+
+.v-bar{display:flex;align-items:center;gap:10px;padding:9px 14px;border-top:1px solid var(--border);background:#07070f;}
+#trans{flex:1;font-size:12px;color:var(--muted);font-style:italic;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+.waves{display:flex;align-items:center;gap:2px;height:20px;}
+.wb{width:3px;border-radius:2px;background:var(--cyan);opacity:.35;height:4px;}
+.waves.active .wb{animation:wv .8s ease-in-out infinite;opacity:1;}
+.wb:nth-child(1){animation-delay:0s;}.wb:nth-child(2){animation-delay:.1s;}.wb:nth-child(3){animation-delay:.2s;}.wb:nth-child(4){animation-delay:.1s;}.wb:nth-child(5){animation-delay:0s;}
+@keyframes wv{0%,100%{height:4px;}50%{height:16px;}}
+
+/* Orb */
+#orb{width:58px;height:58px;border-radius:50%;background:#05050d;border:1.5px solid rgba(0,212,255,.3);cursor:none;display:flex;align-items:center;justify-content:center;transition:border-color .3s,box-shadow .3s;box-shadow:0 0 18px rgba(0,212,255,.07);}
+#orb:hover{border-color:var(--cyan);box-shadow:0 0 28px rgba(0,212,255,.22);}
+#orb svg{width:22px;height:22px;}
+#orb.listening{border-color:var(--cyan);animation:orbP 1.5s ease-in-out infinite;}
+@keyframes orbP{0%{box-shadow:0 0 0 0 rgba(0,212,255,.5);}70%{box-shadow:0 0 0 18px rgba(0,212,255,0);}100%{box-shadow:0 0 0 0 rgba(0,212,255,0);}}
+#orb.speaking{border-color:var(--violet);animation:orbS 1.2s ease-in-out infinite;}
+@keyframes orbS{0%{box-shadow:0 0 0 0 rgba(168,85,247,.5);}70%{box-shadow:0 0 0 14px rgba(168,85,247,0);}100%{box-shadow:0 0 0 0 rgba(168,85,247,0);}}
+
+/* WhatsApp toast */
+#wa-toast{position:fixed;bottom:7rem;right:2.5rem;background:#075e54;color:white;font-size:13px;font-weight:500;padding:11px 16px;border-radius:10px;display:none;align-items:center;gap:9px;z-index:600;box-shadow:0 8px 24px rgba(0,0,0,.45);animation:tIn .3s ease;}
+#wa-toast.show{display:flex;}
+@keyframes tIn{from{opacity:0;transform:translateX(18px);}to{opacity:1;transform:translateX(0);}}
+
+/* Responsive */
+@media(max-width:860px){
+  nav{padding:1rem 1.5rem;}.nav-links{display:none;}
+  .hero{padding:6rem 1.5rem 4rem;}.hero-stats{right:1.5rem;bottom:2rem;}
+  .wrap{padding:5rem 1.5rem;}
+  .about-grid{grid-template-columns:1fr;gap:2.5rem;}.portrait{max-width:100%;aspect-ratio:4/3;}
+  .pgrid{grid-template-columns:1fr;}.pc.wide{grid-column:span 1;}
+  #ai-panel{width:300px;}
+  footer{flex-direction:column;gap:6px;text-align:center;padding:1.2rem;}
+  .contact-inner{padding:5rem 1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">AH</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="glow-orb g1"></div>
+  <div class="glow-orb g2"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Available for projects</div>
+    <h1 class="hero-name">AMAR<br>HUSSAINI</h1>
+    <p class="hero-sub">Full-Stack Developer &amp; Designer</p>
+    <p class="hero-desc">I build digital products people love — fast, functional, and beautifully crafted from concept to deployment.</p>
+    <div class="hero-btns">
+      <a href="#work" class="btn-p">View Work →</a>
+      <a href="#contact" class="btn-g">Contact Me</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div><div class="s-val">5+</div><div class="s-lbl">Years Exp.</div></div>
+    <div><div class="s-val">30+</div><div class="s-lbl">Projects</div></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="divider" style="margin-bottom:4rem;"></div>
+    <div class="sec-lbl reveal">About</div>
+    <h2 class="sec-title reveal">Who I Am</h2>
+    <div class="about-grid">
+      <div class="portrait reveal">
+        <div class="port-bg"></div>
+        <div class="port-scan"></div>
+        <div class="corner tl"></div><div class="corner tr"></div>
+        <div class="corner bl"></div><div class="corner br"></div>
+        <div class="port-name"><span>Portfolio</span>Amar Hussaini</div>
+      </div>
+      <div class="about-body reveal">
+        <p>Hey — I'm a <strong>full-stack developer and creative technologist</strong> based in Nigeria. I specialize in building polished digital experiences, from SaaS platforms to interactive portfolios.</p>
+        <p>I work with clients across Africa, Europe, and North America to ship products that are technically solid and visually compelling. I care deeply about the details most people skip.</p>
+        <p>Outside client work I build open-source tools, write about design systems, and mentor junior developers in my community.</p>
+        <div class="skills">
+          <div class="sk">React / Next.js</div>
+          <div class="sk">Node.js / Express</div>
+          <div class="sk">UI / UX Design</div>
+          <div class="sk">Figma &amp; Prototyping</div>
+          <div class="sk">TypeScript</div>
+          <div class="sk">PostgreSQL / MongoDB</div>
+          <div class="sk">Brand Identity</div>
+          <div class="sk">Motion &amp; Animation</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work" class="work-bg">
+  <div class="wrap">
+    <div class="sec-lbl reveal">Selected Work</div>
+    <h2 class="sec-title reveal">Projects</h2>
+    <div class="pgrid reveal">
+      <div class="pc wide">
+        <div class="p-year">2024</div>
+        <div class="p-name">NovaPay Dashboard</div>
+        <p class="p-desc">End-to-end redesign of a fintech analytics platform. Improved task completion by 42% through better information hierarchy and redesigned data visualisations.</p>
+        <div class="p-stack"><span class="stag">React</span><span class="stag">TypeScript</span><span class="stag">D3.js</span><span class="stag">UI Design</span></div>
+        <div class="p-arrow">↗</div>
+      </div>
+      <div class="pc">
+        <div class="p-year">2024</div>
+        <div class="p-name">Arko Studio</div>
+        <p class="p-desc">Brand identity and editorial website for an independent architecture practice.</p>
+        <div class="p-stack"><span class="stag">Next.js</span><span class="stag">Brand</span></div>
+        <div class="p-arrow">↗</div>
+      </div>
+      <div class="pc">
+        <div class="p-year">2023</div>
+        <div class="p-name">Celeste App</div>
+        <p class="p-desc">Wellness mobile app — concept through to shipped iOS product with 12k users.</p>
+        <div class="p-stack"><span class="stag">React Native</span><span class="stag">Product</span></div>
+        <div class="p-arrow">↗</div>
+      </div>
+      <div class="pc">
+        <div class="p-year">2023</div>
+        <div class="p-name">LogiTrack API</div>
+        <p class="p-desc">Logistics microservice handling 2M+ events/day for a major e-commerce group.</p>
+        <div class="p-stack"><span class="stag">Node.js</span><span class="stag">PostgreSQL</span></div>
+        <div class="p-arrow">↗</div>
+      </div>
+      <div class="pc wide">
+        <div class="p-year">2022</div>
+        <div class="p-name">Volta Energy — Launch Campaign</div>
+        <p class="p-desc">Full brand identity and motion-led launch for a clean energy startup raising Series A. Covered logo, design system, pitch deck, and launch microsite.</p>
+        <div class="p-stack"><span class="stag">Brand</span><span class="stag">Motion</span><span class="stag">Web</span></div>
+        <div class="p-arrow">↗</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner reveal">
+    <div class="sec-lbl">Contact</div>
+    <h2 class="sec-title">Let's Build<br>Something</h2>
+    <p>Open to freelance projects, full-time roles, and interesting collaborations.</p>
+    <a href="mailto:amarhussaini72@gmail.com" class="c-email">amarhussani72@gmail.com</a>
+    <div class="socials">
+      <a href="#">Twitter</a><a href="#">LinkedIn</a><a href="#">GitHub</a><a href="#">Dribbble</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Amar Hussaini</span>
+  <span>Built with care</span>
+  <span>jos , plateau, Nigeria</span>
+</footer>
+
+<!-- ═══════════════════════════════
+     AI VOICE ASSISTANT WIDGET
+     ═══════════════════════════════ -->
+<div id="ai-orb">
+  <div id="ai-panel">
+    <div class="p-hdr">
+      <div class="p-dot"></div>
+      <span class="p-title">AI Assistant</span>
+      <span class="p-stat" id="pstat">Ready</span>
+      <button id="btn-x">×</button>
+    </div>
+    <div id="chat-log"></div>
+    <div class="v-bar">
+      <span id="trans">Tap the mic and speak…</span>
+      <div class="waves" id="waves">
+        <div class="wb"></div><div class="wb"></div><div class="wb"></div>
+        <div class="wb"></div><div class="wb"></div>
+      </div>
+    </div>
+  </div>
+
+  <button id="orb" title="Talk to AI">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+      <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/>
+    </svg>
+  </button>
+</div>
+
+<div id="wa-toast">
+  <span>📲</span>
+  <span>Opening WhatsApp…</span>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     ★  CONFIGURE YOUR PORTFOLIO BELOW  ★
+     ════════════════════════════════════════════════════════ -->
+<script>
+const CONFIG = {
+  /* ① Get your key at https://console.anthropic.com
+     ⚠  For production, use a backend proxy — don't expose this key publicly */
+  ANTHROPIC_API_KEY: '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',
+
+  /* ② Your WhatsApp number — country code + number, no spaces, no +
+     Example: Nigeria 080... → '2348012345678' */
+  WHATSAPP_PHONE: 2348137477803,
+
+  /* ③ Customise your info for the AI assistant */
+  OWNER_NAME: 'Amar Hussaini',
+  BIO: `A full-stack developer and designer based in Nigeria.
+        Skills: React, Next.js, Node.js, TypeScript, UI/UX design, brand identity.
+        30+ shipped projects. 5+ years experience.
+        Available for freelance and full-time roles.
+        Email: amarhussani72@gmail.com`
+};
+
+/* ── Cursor ── */
+const cursor = document.getElementById('cursor');
+const ring   = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+(function trackRing(){rx+=(mx-rx)*.13;ry+=(my-ry)*.13;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(trackRing);})();
+
+/* ── Scroll reveal ── */
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+/* ══════════════════════════════════════════
+   AI VOICE ASSISTANT
+   ══════════════════════════════════════════ */
+const orbBtn  = document.getElementById('orb');
+const panel   = document.getElementById('ai-panel');
+const log     = document.getElementById('chat-log');
+const closeBtn= document.getElementById('btn-x');
+const statEl  = document.getElementById('pstat');
+const transEl = document.getElementById('trans');
+const wavesEl = document.getElementById('waves');
+const waToast = document.getElementById('wa-toast');
+
+let recognition=null, isListening=false, isSpeaking=false, panelOpen=false;
+
+/* ── Speech Recognition ── */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (SR) {
+  recognition = new SR();
+  recognition.continuous = false;
+  recognition.interimResults = true;
+  recognition.lang = 'en-US';
+
+  recognition.onstart = () => {
+    isListening = true;
+    orbBtn.classList.add('listening');
+    wavesEl.classList.add('active');
+    setStat('Listening…');
+  };
+  recognition.onend = () => {
+    isListening = false;
+    orbBtn.classList.remove('listening');
+    wavesEl.classList.remove('active');
+    if (!isSpeaking) setStat('Ready');
+  };
+  recognition.onerror = () => { setStat('Mic error'); stopListen(); };
+  recognition.onresult = e => {
+    let interim='', final='';
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      const t=e.results[i][0].transcript;
+      e.results[i].isFinal ? final+=t : interim+=t;
+    }
+    transEl.textContent = interim || final || '…';
+    if (final) handleInput(final.trim());
+  };
+} else {
+  orbBtn.title = 'Voice not supported — try Chrome or Edge';
+}
+
+/* ── Helpers ── */
+const setStat = s => statEl.textContent = s;
+const delay   = ms => new Promise(r => setTimeout(r, ms));
+
+function addMsg(role, text) {
+  const d = document.createElement('div');
+  d.className = `msg ${role}`;
+  d.textContent = text;
+  log.appendChild(d);
+  log.scrollTop = log.scrollHeight;
+}
+function addThinking() {
+  const d = document.createElement('div');
+  d.className = 'msg thinking';
+  d.innerHTML = '<div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
+  log.appendChild(d);
+  log.scrollTop = log.scrollHeight;
+  return d;
+}
+
+/* ── Text-to-Speech ── */
+function speak(text) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = 1.0; u.pitch = 1.0;
+  // Prefer a natural English voice
+  const loadVoice = () => {
+    const vv = window.speechSynthesis.getVoices();
+    const v = vv.find(x=>x.lang.startsWith('en')&&x.name.includes('Google'))
+           || vv.find(x=>x.lang.startsWith('en')) || vv[0];
+    if (v) u.voice = v;
+  };
+  loadVoice();
+  u.onstart = () => { isSpeaking=true; orbBtn.classList.add('speaking'); setStat('Speaking…'); };
+  u.onend   = () => { isSpeaking=false; orbBtn.classList.remove('speaking'); setStat('Ready'); };
+  window.speechSynthesis.speak(u);
+}
+
+/* ── WhatsApp trigger ── */
+function openWA(userMsg) {
+  const txt = encodeURIComponent(`Hi ${CONFIG.OWNER_NAME}! I was just on your portfolio and I'd love to connect.\n\n"${userMsg}"`);
+  const url = `https://wa.me/${CONFIG.WHATSAPP_PHONE}?text=${txt}`;
+  waToast.classList.add('show');
+  setTimeout(() => waToast.classList.remove('show'), 4000);
+  setTimeout(() => window.open(url, '_blank'), 700);
+}
+
+/* ── Contact intent detection ── */
+const CONTACT = ['talk to you','reach you','contact you','get in touch','hire you','work with you',
+  'your services','send a message','message you','reach out','connect with you','talk with you',
+  'call you','email you','whatsapp','collaborate','your number','schedule a call'];
+const wantsContact = txt => CONTACT.some(k => txt.toLowerCase().includes(k));
+
+/* ── Core: handle voice input ── */
+async function handleInput(text) {
+  if (!text) return;
+  transEl.textContent = '…';
+  addMsg('user', text);
+
+  if (wantsContact(text)) {
+    const reply = `Perfect! I'm opening WhatsApp right now so you can message ${CONFIG.OWNER_NAME} directly.`;
+    const t = addThinking();
+    await delay(500);
+    t.remove();
+    addMsg('ai', reply);
+    speak(reply);
+    openWA(text);
+    return;
+  }
+
+  if (!CONFIG.ANTHROPIC_API_KEY || CONFIG.ANTHROPIC_API_KEY === 'YOUR_ANTHROPIC_API_KEY_HERE') {
+    const fb = `Thanks for reaching out! Add your Anthropic API key in the CONFIG to enable full AI responses. You can also contact directly via email below.`;
+    addMsg('ai', fb);
+    speak(fb);
+    return;
+  }
+
+  const t = addThinking();
+  setStat('Thinking…');
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': CONFIG.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 180,
+        system: `You are the AI voice assistant on ${CONFIG.OWNER_NAME}'s portfolio website.
+Help visitors learn about ${CONFIG.OWNER_NAME}'s work, skills, and availability.
+Keep ALL replies SHORT — 1 to 3 sentences — since your words are spoken aloud.
+Be warm, confident, and professional.
+
+Portfolio info:
+${CONFIG.BIO}
+
+If someone wants to hire, collaborate with, or contact ${CONFIG.OWNER_NAME}, tell them you're opening WhatsApp for them right now.`,
+        messages: [{ role: 'user', content: text }]
+      })
+    });
+    const data = await res.json();
+    t.remove();
+    const reply = data?.content?.[0]?.text || 'connection problem please check your internet connection.';
+    addMsg('ai', reply);
+    speak(reply);
+    setStat('Ready');
+  } catch(err) {
+    t.remove();
+    const errMsg = 'Connection issue — please check your API key in the config.';
+    addMsg('ai', errMsg);
+    setStat('Error');
+    console.error(err);
+  }
+}
+
+/* ── Start / stop listening ── */
+function startListen() {
+  if (!recognition) return;
+  if (isSpeaking) { window.speechSynthesis.cancel(); isSpeaking=false; }
+  try { recognition.start(); } catch(e) {}
+}
+function stopListen() {
+  if (recognition && isListening) recognition.stop();
+}
+
+/* ── Toggle panel ── */
+function openPanel() {
+  panelOpen = true;
+  panel.classList.add('open');
+  if (log.children.length === 0) {
+    addMsg('ai', `Hi! I'm ${CONFIG.OWNER_NAME}'s AI assistant. Ask me anything, or say "I'd like to get in touch" to connect on WhatsApp instantly.`);
+    speak(`Hi! I'm ${CONFIG.OWNER_NAME}'s AI assistant.  Ask me anything, or say "I'd like to get in touch" to connect on WhatsApp instantly.`);
+  }
+}
+
+/* ── Events ── */
+orbBtn.addEventListener('click', () => {
+  if (!panelOpen) {
+    openPanel();
+    setTimeout(startListen, 500);
+  } else {
+    isListening ? stopListen() : startListen();
+  }
+});
+
+closeBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  stopListen();
+  window.speechSynthesis?.cancel();
+  panelOpen = false;
+  panel.classList.remove('open');
+});
+
+window.speechSynthesis?.addEventListener('voiceschanged', () => {});
+</script>
+</body>
+</html>
