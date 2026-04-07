@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -88,19 +88,88 @@ section{position:relative;z-index:2;}
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease;}
 .reveal.visible{opacity:1;transform:translateY(0);}
 
-/* ABOUT */
+/* ━━ ABOUT / PORTRAIT ━━ */
 .about-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:5rem;align-items:center;margin-top:3rem;}
 .portrait{position:relative;aspect-ratio:3/4;max-width:340px;}
-.port-bg{position:absolute;inset:0;background:linear-gradient(135deg,var(--card) 0%,#090914 100%);border:1px solid var(--border);border-radius:4px;}
-.port-scan{position:absolute;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);top:0;animation:scan 4s ease-in-out infinite;}
+
+/* The actual photo */
+.portrait-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+  z-index: 0;
+}
+
+/* Dark overlay so scan line and name label show on top of photo */
+.portrait-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(4,4,10,0.05) 0%,
+    rgba(4,4,10,0.02) 50%,
+    rgba(4,4,10,0.65) 100%
+  );
+  border-radius: 4px;
+  z-index: 1;
+}
+
+/* Placeholder shown when no photo src is set */
+.portrait-placeholder {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--card) 0%, #090914 100%);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  z-index: 0;
+}
+.placeholder-icon {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  border: 2px dashed rgba(0,212,255,0.3);
+  display: flex; align-items: center; justify-content: center;
+}
+.placeholder-icon svg { width: 28px; height: 28px; opacity: 0.35; }
+.placeholder-text {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: .6;
+}
+
+.port-scan{position:absolute;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);top:0;animation:scan 4s ease-in-out infinite;z-index:3;}
 @keyframes scan{0%{top:0;opacity:0;}10%{opacity:1;}90%{opacity:1;}100%{top:100%;opacity:0;}}
-.port-name{position:absolute;bottom:-1px;left:-1px;right:-1px;padding:1.5rem;background:linear-gradient(to top,rgba(4,4,10,.96),transparent);font-family:var(--display);font-size:1.8rem;letter-spacing:.05em;color:white;border-radius:0 0 4px 4px;}
+
+/* Vignette glow border */
+.portrait::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px rgba(0,212,255,.2);
+  z-index: 4;
+  pointer-events: none;
+}
+
+.port-name{position:absolute;bottom:-1px;left:-1px;right:-1px;padding:1.5rem;background:linear-gradient(to top,rgba(4,4,10,.97) 0%, rgba(4,4,10,.6) 70%, transparent 100%);font-family:var(--display);font-size:1.8rem;letter-spacing:.05em;color:white;border-radius:0 0 4px 4px;z-index:5;}
 .port-name span{display:block;font-family:var(--body);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);margin-bottom:4px;}
-.corner{position:absolute;width:14px;height:14px;}
+.corner{position:absolute;width:14px;height:14px;z-index:6;}
 .tl{top:-1px;left:-1px;border-top:2px solid var(--cyan);border-left:2px solid var(--cyan);}
 .tr{top:-1px;right:-1px;border-top:2px solid var(--cyan);border-right:2px solid var(--cyan);}
 .bl{bottom:-1px;left:-1px;border-bottom:2px solid var(--cyan);border-left:2px solid var(--cyan);}
 .br{bottom:-1px;right:-1px;border-bottom:2px solid var(--cyan);border-right:2px solid var(--cyan);}
+
 .about-body p{font-size:1.05rem;font-weight:300;color:#8892a8;margin-bottom:1.2rem;line-height:1.85;}
 .about-body p strong{color:var(--text);font-weight:600;}
 .skills{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:1.5rem;}
@@ -123,6 +192,154 @@ section{position:relative;z-index:2;}
 .p-arrow{position:absolute;bottom:1.75rem;right:1.75rem;width:34px;height:34px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--muted);transition:color .2s,border-color .2s,transform .2s;z-index:1;}
 .pc:hover .p-arrow{color:var(--cyan);border-color:var(--cyan);transform:translate(3px,-3px);}
 
+/* ━━━━━━━━━━━━━━━━━━━━━━━━
+   TEAM SECTION
+   ━━━━━━━━━━━━━━━━━━━━━━━━ */
+.team-section { background: var(--bg); }
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 3.5rem;
+}
+
+.team-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  transition: border-color .3s, transform .3s;
+  cursor: none;
+}
+.team-card:hover {
+  border-color: rgba(0,212,255,.35);
+  transform: translateY(-6px);
+}
+
+/* Glowing top accent line on hover */
+.team-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  opacity: 0;
+  transition: opacity .3s;
+  z-index: 2;
+}
+.team-card:hover::before { opacity: 1; }
+
+/* Photo frame inside card */
+.tm-photo-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0a0a15, #10101f);
+}
+
+.tm-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .5s ease;
+}
+.team-card:hover .tm-photo { transform: scale(1.04); }
+
+/* Photo placeholder */
+.tm-photo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #0b0b18 0%, #0e0e1e 100%);
+}
+.tm-placeholder-ring {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  border: 2px dashed rgba(0,212,255,0.25);
+  display: flex; align-items: center; justify-content: center;
+}
+.tm-placeholder-ring svg { width: 30px; height: 30px; opacity: .3; }
+.tm-placeholder-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: .5;
+}
+
+/* Scan line on team card photo */
+.tm-scan {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  animation: scan 3.5s ease-in-out infinite;
+  z-index: 3;
+}
+
+/* Photo overlay gradient for card */
+.tm-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 55%;
+  background: linear-gradient(to top, rgba(13,13,24,.95), transparent);
+  z-index: 2;
+}
+
+/* Card info */
+.tm-info {
+  padding: 1.4rem 1.5rem 1.5rem;
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--border);
+}
+.tm-role {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 6px;
+}
+.tm-name {
+  font-family: var(--display);
+  font-size: 1.5rem;
+  letter-spacing: .04em;
+  color: var(--text);
+  margin-bottom: 12px;
+  line-height: 1.1;
+}
+.tm-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.tm-tag {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border: 1px solid rgba(0,212,255,.15);
+  color: var(--muted);
+  border-radius: 2px;
+  background: rgba(0,212,255,.04);
+  transition: color .2s, border-color .2s;
+}
+.team-card:hover .tm-tag {
+  color: var(--cyan);
+  border-color: rgba(0,212,255,.3);
+}
+
 /* CONTACT */
 .contact-inner{text-align:center;max-width:680px;margin:0 auto;padding:7rem 3rem;}
 .contact-inner .sec-lbl{justify-content:center;}
@@ -142,18 +359,15 @@ footer span{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:u
    AI VOICE ASSISTANT
    ════════════════════════════════ */
 #ai-orb{position:fixed;bottom:2.5rem;right:2.5rem;z-index:500;display:flex;flex-direction:column;align-items:flex-end;gap:10px;}
-
-#ai-panel{width:340px;background:#09091510;border:1px solid rgba(0,212,255,.18);border-radius:16px;overflow:hidden;display:none;flex-direction:column;box-shadow:0 24px 60px rgba(0,0,0,.7),0 0 0 1px rgba(0,212,255,.04);animation:panelIn .25s ease;backdrop-filter:blur(20px);background:#0a0a16;}
+#ai-panel{width:340px;background:#0a0a16;border:1px solid rgba(0,212,255,.18);border-radius:16px;overflow:hidden;display:none;flex-direction:column;box-shadow:0 24px 60px rgba(0,0,0,.7),0 0 0 1px rgba(0,212,255,.04);animation:panelIn .25s ease;backdrop-filter:blur(20px);}
 #ai-panel.open{display:flex;}
 @keyframes panelIn{from{opacity:0;transform:translateY(10px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
-
 .p-hdr{display:flex;align-items:center;gap:9px;padding:11px 14px;border-bottom:1px solid var(--border);background:#07070f;}
 .p-dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);animation:blink 2s ease-in-out infinite;}
 .p-title{flex:1;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text);}
 .p-stat{font-size:11px;color:var(--muted);}
 #btn-x{width:22px;height:22px;background:none;border:none;cursor:none;color:var(--muted);font-size:16px;display:flex;align-items:center;justify-content:center;transition:color .2s;line-height:1;padding:0;}
 #btn-x:hover{color:var(--text);}
-
 #chat-log{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:9px;max-height:250px;min-height:100px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
 .msg{max-width:86%;padding:9px 12px;border-radius:10px;font-size:13px;line-height:1.6;animation:msgIn .2s ease;}
 @keyframes msgIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
@@ -164,7 +378,6 @@ footer span{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:u
 .dot{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:db 1.2s ease-in-out infinite;}
 .dot:nth-child(2){animation-delay:.2s;}.dot:nth-child(3){animation-delay:.4s;}
 @keyframes db{0%,80%,100%{transform:scale(.7);opacity:.4;}40%{transform:scale(1);opacity:1;}}
-
 .v-bar{display:flex;align-items:center;gap:10px;padding:9px 14px;border-top:1px solid var(--border);background:#07070f;}
 #trans{flex:1;font-size:12px;color:var(--muted);font-style:italic;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
 .waves{display:flex;align-items:center;gap:2px;height:20px;}
@@ -172,8 +385,6 @@ footer span{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:u
 .waves.active .wb{animation:wv .8s ease-in-out infinite;opacity:1;}
 .wb:nth-child(1){animation-delay:0s;}.wb:nth-child(2){animation-delay:.1s;}.wb:nth-child(3){animation-delay:.2s;}.wb:nth-child(4){animation-delay:.1s;}.wb:nth-child(5){animation-delay:0s;}
 @keyframes wv{0%,100%{height:4px;}50%{height:16px;}}
-
-/* Orb */
 #orb{width:58px;height:58px;border-radius:50%;background:#05050d;border:1.5px solid rgba(0,212,255,.3);cursor:none;display:flex;align-items:center;justify-content:center;transition:border-color .3s,box-shadow .3s;box-shadow:0 0 18px rgba(0,212,255,.07);}
 #orb:hover{border-color:var(--cyan);box-shadow:0 0 28px rgba(0,212,255,.22);}
 #orb svg{width:22px;height:22px;}
@@ -181,8 +392,6 @@ footer span{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:u
 @keyframes orbP{0%{box-shadow:0 0 0 0 rgba(0,212,255,.5);}70%{box-shadow:0 0 0 18px rgba(0,212,255,0);}100%{box-shadow:0 0 0 0 rgba(0,212,255,0);}}
 #orb.speaking{border-color:var(--violet);animation:orbS 1.2s ease-in-out infinite;}
 @keyframes orbS{0%{box-shadow:0 0 0 0 rgba(168,85,247,.5);}70%{box-shadow:0 0 0 14px rgba(168,85,247,0);}100%{box-shadow:0 0 0 0 rgba(168,85,247,0);}}
-
-/* WhatsApp toast */
 #wa-toast{position:fixed;bottom:7rem;right:2.5rem;background:#075e54;color:white;font-size:13px;font-weight:500;padding:11px 16px;border-radius:10px;display:none;align-items:center;gap:9px;z-index:600;box-shadow:0 8px 24px rgba(0,0,0,.45);animation:tIn .3s ease;}
 #wa-toast.show{display:flex;}
 @keyframes tIn{from{opacity:0;transform:translateX(18px);}to{opacity:1;transform:translateX(0);}}
@@ -194,9 +403,13 @@ footer span{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:u
   .wrap{padding:5rem 1.5rem;}
   .about-grid{grid-template-columns:1fr;gap:2.5rem;}.portrait{max-width:100%;aspect-ratio:4/3;}
   .pgrid{grid-template-columns:1fr;}.pc.wide{grid-column:span 1;}
+  .team-grid{grid-template-columns:1fr;}
   #ai-panel{width:300px;}
   footer{flex-direction:column;gap:6px;text-align:center;padding:1.2rem;}
   .contact-inner{padding:5rem 1.5rem;}
+}
+@media(min-width:861px) and (max-width:1050px){
+  .team-grid{grid-template-columns:repeat(2,1fr);}
 }
 </style>
 </head>
@@ -211,6 +424,7 @@ footer span{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:u
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#work">Work</a></li>
+    <li><a href="#team">Team</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
@@ -243,13 +457,43 @@ footer span{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:u
     <div class="sec-lbl reveal">About</div>
     <h2 class="sec-title reveal">Who I Am</h2>
     <div class="about-grid">
+
+      <!-- ★ PORTRAIT — replace the src below with your actual photo path ★ -->
       <div class="portrait reveal">
-        <div class="port-bg"></div>
+
+        <!-- ① If you have a photo: set src="your-photo.jpg" and remove the placeholder div below -->
+        <!-- ② If no photo yet: the placeholder shows automatically -->
+
+        <img
+          class="portrait-photo"
+          src="images/8CE16B60-D54B-41B1-9717-9A3E653C73C3.jpeg"
+          alt="Amar Hussaini"
+          id="portrait-img"
+          style="display:none;"
+        />
+        <div class="portrait-overlay" id="portrait-overlay" style="display:none;"></div>
+
+        <!-- Placeholder (hidden once photo loads) -->
+        <div class="portrait-placeholder" id="portrait-placeholder">
+          <div class="placeholder-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.5">
+              <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+            </svg>
+          </div>
+          <span class="placeholder-text">Add your photo</span>
+        </div>
+
+        <!-- Scanning line (always visible) -->
         <div class="port-scan"></div>
+
+        <!-- Corner brackets -->
         <div class="corner tl"></div><div class="corner tr"></div>
         <div class="corner bl"></div><div class="corner br"></div>
+
+        <!-- Name label -->
         <div class="port-name"><span>Portfolio</span>Amar Hussaini</div>
       </div>
+
       <div class="about-body reveal">
         <p>Hey — I'm a <strong>full-stack developer and creative technologist</strong> based in Nigeria. I specialize in building polished digital experiences, from SaaS platforms to interactive portfolios.</p>
         <p>I work with clients across Africa, Europe, and North America to ship products that are technically solid and visually compelling. I care deeply about the details most people skip.</p>
@@ -314,13 +558,111 @@ footer span{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:u
   </div>
 </section>
 
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     TEAM SECTION
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section id="team" class="team-section">
+  <div class="wrap">
+    <div class="divider" style="margin-bottom:4rem;"></div>
+    <div class="sec-lbl reveal">The People</div>
+    <h2 class="sec-title reveal">Meet the Team</h2>
+    <p class="reveal" style="color:var(--muted);font-size:1rem;font-weight:300;max-width:480px;margin-bottom:0;">The talented individuals I build alongside — each bringing deep expertise to every project.</p>
+
+    <div class="team-grid">
+
+      <!-- ★ TEAM MEMBER 1 — replace src, name, role, tags ★ -->
+      <div class="team-card reveal">
+        <div class="tm-photo-wrap">
+          <!-- Set src to member photo, e.g. src="team/sarah.jpg" -->
+          <img class="tm-photo" src="images/8CE16B60-D54B-41B1-9717-9A3E653C73C3.jpeg" alt="Team Member 1" id="team1-img" style="display:none;"/>
+          <div class="tm-photo-placeholder" id="team1-placeholder">
+            <div class="tm-placeholder-ring">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.5">
+                <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+              </svg>
+            </div>
+            <span class="tm-placeholder-label">Add photo</span>
+          </div>
+          <div class="tm-scan"></div>
+          <div class="tm-overlay"></div>
+        </div>
+        <div class="tm-info">
+          <div class="tm-role">Frontend Engineer</div>
+          <div class="tm-name">Sarah Okonkwo</div>
+          <div class="tm-stack">
+            <span class="tm-tag">React</span>
+            <span class="tm-tag">Next.js</span>
+            <span class="tm-tag">Tailwind</span>
+            <span class="tm-tag">Figma</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ★ TEAM MEMBER 2 ★ -->
+      <div class="team-card reveal" style="transition-delay:.12s;">
+        <div class="tm-photo-wrap">
+          <img class="tm-photo" src="images/8CE16B60-D54B-41B1-9717-9A3E653C73C3.jpeg" alt="Team Member 2" id="team2-img" style="display:none;"/>
+          <div class="tm-photo-placeholder" id="team2-placeholder">
+            <div class="tm-placeholder-ring">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.5">
+                <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+              </svg>
+            </div>
+            <span class="tm-placeholder-label">Add photo</span>
+          </div>
+          <div class="tm-scan" style="animation-delay:1.2s;"></div>
+          <div class="tm-overlay"></div>
+        </div>
+        <div class="tm-info">
+          <div class="tm-role">Backend Engineer</div>
+          <div class="tm-name">James Adeyemi</div>
+          <div class="tm-stack">
+            <span class="tm-tag">Node.js</span>
+            <span class="tm-tag">Go</span>
+            <span class="tm-tag">PostgreSQL</span>
+            <span class="tm-tag">AWS</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ★ TEAM MEMBER 3 ★ -->
+      <div class="team-card reveal" style="transition-delay:.24s;">
+        <div class="tm-photo-wrap">
+          <img class="tm-photo" src="images/8CE16B60-D54B-41B1-9717-9A3E653C73C3.jpeg" alt="Team Member 3" id="team3-img" style="display:none;"/>
+          <div class="tm-photo-placeholder" id="team3-placeholder">
+            <div class="tm-placeholder-ring">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.5">
+                <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+              </svg>
+            </div>
+            <span class="tm-placeholder-label">Add photo</span>
+          </div>
+          <div class="tm-scan" style="animation-delay:2.4s;"></div>
+          <div class="tm-overlay"></div>
+        </div>
+        <div class="tm-info">
+          <div class="tm-role">UI/UX Designer</div>
+          <div class="tm-name">Fatima Musa</div>
+          <div class="tm-stack">
+            <span class="tm-tag">Figma</span>
+            <span class="tm-tag">Framer</span>
+            <span class="tm-tag">Motion</span>
+            <span class="tm-tag">Brand</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- CONTACT -->
 <section id="contact">
   <div class="contact-inner reveal">
     <div class="sec-lbl">Contact</div>
     <h2 class="sec-title">Let's Build<br>Something</h2>
     <p>Open to freelance projects, full-time roles, and interesting collaborations.</p>
-    <a href="mailto:amarhussaini72@gmail.com" class="c-email">amarhussani72@gmail.com</a>
+    <a href="mailto:amarhussaini72@gmail.com" class="c-email">amarhussaini72@gmail.com</a>
     <div class="socials">
       <a href="#">Twitter</a><a href="#">LinkedIn</a><a href="#">GitHub</a><a href="#">Dribbble</a>
     </div>
@@ -330,12 +672,10 @@ footer span{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:u
 <footer>
   <span>© 2026 Amar Hussaini</span>
   <span>Built with care</span>
-  <span>jos , plateau, Nigeria</span>
+  <span>Jos, Plateau, Nigeria</span>
 </footer>
 
-<!-- ═══════════════════════════════
-     AI VOICE ASSISTANT WIDGET
-     ═══════════════════════════════ -->
+<!-- AI VOICE ASSISTANT -->
 <div id="ai-orb">
   <div id="ai-panel">
     <div class="p-hdr">
@@ -353,7 +693,6 @@ footer span{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:u
       </div>
     </div>
   </div>
-
   <button id="orb" title="Talk to AI">
     <svg viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
       <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
@@ -367,42 +706,56 @@ footer span{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:u
   <span>Opening WhatsApp…</span>
 </div>
 
-<!-- ════════════════════════════════════════════════════════
-     ★  CONFIGURE YOUR PORTFOLIO BELOW  ★
-     ════════════════════════════════════════════════════════ -->
 <script>
+/* ══════════════════════════════════════════════════════
+   CONFIG
+   ══════════════════════════════════════════════════════ */
 const CONFIG = {
-  /* ① Get your key at https://console.anthropic.com
-     ⚠  For production, use a backend proxy — don't expose this key publicly */
-  ANTHROPIC_API_KEY: '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',
+  /* ★ PASTE YOUR FREE GEMINI KEY HERE ★
+     Get one free at: https://aistudio.google.com → click "Get API Key"
+     No credit card needed. 1500 free requests/day. */
+  GEMINI_API_KEY: 'AIzaSyAgaB41mPMkS28s4_ydsDWpOX3T09aKI0Q',
 
-  /* ② Your WhatsApp number — country code + number, no spaces, no +
-     Example: Nigeria 080... → '2348012345678' */
-  WHATSAPP_PHONE: 2348137477803,
-
-  /* ③ Customise your info for the AI assistant */
+  WHATSAPP_PHONE: '2348137477803',
   OWNER_NAME: 'Amar Hussaini',
-  BIO: `A full-stack developer and designer based in Nigeria.
+  BIO: `A full-stack developer and designer based in Jos, Plateau, Nigeria.
         Skills: React, Next.js, Node.js, TypeScript, UI/UX design, brand identity.
         30+ shipped projects. 5+ years experience.
         Available for freelance and full-time roles.
-        Email: amarhussani72@gmail.com`
+        Email: amarhussaini72@gmail.com`
 };
 
-/* ── Cursor ── */
+/* ══ PHOTO LOADER ══
+   Automatically shows the photo when src is set and hides the placeholder.
+   Works for both portrait and team cards. */
+function initPhoto(imgId, placeholderId, overlayId) {
+  const img = document.getElementById(imgId);
+  if (!img) return;
+  if (img.src && !img.src.endsWith('/') && img.src !== window.location.href) {
+    img.style.display = 'block';
+    const ph = document.getElementById(placeholderId);
+    if (ph) ph.style.display = 'none';
+    const ov = overlayId ? document.getElementById(overlayId) : null;
+    if (ov) ov.style.display = 'block';
+  }
+}
+initPhoto('portrait-img', 'portrait-placeholder', 'portrait-overlay');
+initPhoto('team1-img', 'team1-placeholder', null);
+initPhoto('team2-img', 'team2-placeholder', null);
+initPhoto('team3-img', 'team3-placeholder', null);
+
+/* ══ CURSOR ══ */
 const cursor = document.getElementById('cursor');
 const ring   = document.getElementById('cursor-ring');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
 (function trackRing(){rx+=(mx-rx)*.13;ry+=(my-ry)*.13;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(trackRing);})();
 
-/* ── Scroll reveal ── */
+/* ══ SCROLL REVEAL ══ */
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-/* ══════════════════════════════════════════
-   AI VOICE ASSISTANT
-   ══════════════════════════════════════════ */
+/* ══ AI VOICE ASSISTANT ══ */
 const orbBtn  = document.getElementById('orb');
 const panel   = document.getElementById('ai-panel');
 const log     = document.getElementById('chat-log');
@@ -411,29 +764,16 @@ const statEl  = document.getElementById('pstat');
 const transEl = document.getElementById('trans');
 const wavesEl = document.getElementById('waves');
 const waToast = document.getElementById('wa-toast');
-
 let recognition=null, isListening=false, isSpeaking=false, panelOpen=false;
 
-/* ── Speech Recognition ── */
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 if (SR) {
   recognition = new SR();
   recognition.continuous = false;
   recognition.interimResults = true;
   recognition.lang = 'en-US';
-
-  recognition.onstart = () => {
-    isListening = true;
-    orbBtn.classList.add('listening');
-    wavesEl.classList.add('active');
-    setStat('Listening…');
-  };
-  recognition.onend = () => {
-    isListening = false;
-    orbBtn.classList.remove('listening');
-    wavesEl.classList.remove('active');
-    if (!isSpeaking) setStat('Ready');
-  };
+  recognition.onstart = () => { isListening=true; orbBtn.classList.add('listening'); wavesEl.classList.add('active'); setStat('Listening…'); };
+  recognition.onend   = () => { isListening=false; orbBtn.classList.remove('listening'); wavesEl.classList.remove('active'); if(!isSpeaking) setStat('Ready'); };
   recognition.onerror = () => { setStat('Mic error'); stopListen(); };
   recognition.onresult = e => {
     let interim='', final='';
@@ -444,65 +784,46 @@ if (SR) {
     transEl.textContent = interim || final || '…';
     if (final) handleInput(final.trim());
   };
-} else {
-  orbBtn.title = 'Voice not supported — try Chrome or Edge';
-}
+} else { orbBtn.title='Voice not supported — try Chrome or Edge'; }
 
-/* ── Helpers ── */
 const setStat = s => statEl.textContent = s;
 const delay   = ms => new Promise(r => setTimeout(r, ms));
 
 function addMsg(role, text) {
-  const d = document.createElement('div');
-  d.className = `msg ${role}`;
-  d.textContent = text;
-  log.appendChild(d);
-  log.scrollTop = log.scrollHeight;
+  const d=document.createElement('div'); d.className=`msg ${role}`; d.textContent=text;
+  log.appendChild(d); log.scrollTop=log.scrollHeight;
 }
 function addThinking() {
-  const d = document.createElement('div');
-  d.className = 'msg thinking';
-  d.innerHTML = '<div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
-  log.appendChild(d);
-  log.scrollTop = log.scrollHeight;
-  return d;
+  const d=document.createElement('div'); d.className='msg thinking';
+  d.innerHTML='<div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
+  log.appendChild(d); log.scrollTop=log.scrollHeight; return d;
 }
 
-/* ── Text-to-Speech ── */
 function speak(text) {
   if (!window.speechSynthesis) return;
   window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.rate = 1.0; u.pitch = 1.0;
-  // Prefer a natural English voice
-  const loadVoice = () => {
-    const vv = window.speechSynthesis.getVoices();
-    const v = vv.find(x=>x.lang.startsWith('en')&&x.name.includes('Google'))
-           || vv.find(x=>x.lang.startsWith('en')) || vv[0];
-    if (v) u.voice = v;
-  };
-  loadVoice();
-  u.onstart = () => { isSpeaking=true; orbBtn.classList.add('speaking'); setStat('Speaking…'); };
-  u.onend   = () => { isSpeaking=false; orbBtn.classList.remove('speaking'); setStat('Ready'); };
+  const u=new SpeechSynthesisUtterance(text); u.rate=1.0; u.pitch=1.0;
+  const vv=window.speechSynthesis.getVoices();
+  const v=vv.find(x=>x.lang.startsWith('en')&&x.name.includes('Google'))||vv.find(x=>x.lang.startsWith('en'))||vv[0];
+  if(v) u.voice=v;
+  u.onstart=()=>{ isSpeaking=true; orbBtn.classList.add('speaking'); setStat('Speaking…'); };
+  u.onend  =()=>{ isSpeaking=false; orbBtn.classList.remove('speaking'); setStat('Ready'); };
   window.speechSynthesis.speak(u);
 }
 
-/* ── WhatsApp trigger ── */
 function openWA(userMsg) {
-  const txt = encodeURIComponent(`Hi ${CONFIG.OWNER_NAME}! I was just on your portfolio and I'd love to connect.\n\n"${userMsg}"`);
-  const url = `https://wa.me/${CONFIG.WHATSAPP_PHONE}?text=${txt}`;
+  const txt=encodeURIComponent(`Hi ${CONFIG.OWNER_NAME}! I was just on your portfolio and I'd love to connect.\n\n"${userMsg}"`);
+  const url=`https://wa.me/${CONFIG.WHATSAPP_PHONE}?text=${txt}`;
   waToast.classList.add('show');
-  setTimeout(() => waToast.classList.remove('show'), 4000);
-  setTimeout(() => window.open(url, '_blank'), 700);
+  setTimeout(()=>waToast.classList.remove('show'),4000);
+  setTimeout(()=>window.open(url,'_blank'),700);
 }
 
-/* ── Contact intent detection ── */
-const CONTACT = ['talk to you','reach you','contact you','get in touch','hire you','work with you',
+const CONTACT=['talk to you','reach you','contact you','get in touch','hire you','work with you',
   'your services','send a message','message you','reach out','connect with you','talk with you',
   'call you','email you','whatsapp','collaborate','your number','schedule a call'];
-const wantsContact = txt => CONTACT.some(k => txt.toLowerCase().includes(k));
+const wantsContact=txt=>CONTACT.some(k=>txt.toLowerCase().includes(k));
 
-/* ── Core: handle voice input ── */
 async function handleInput(text) {
   if (!text) return;
   transEl.textContent = '…';
@@ -510,103 +831,82 @@ async function handleInput(text) {
 
   if (wantsContact(text)) {
     const reply = `Perfect! I'm opening WhatsApp right now so you can message ${CONFIG.OWNER_NAME} directly.`;
-    const t = addThinking();
-    await delay(500);
-    t.remove();
-    addMsg('ai', reply);
-    speak(reply);
-    openWA(text);
-    return;
+    const t = addThinking(); await delay(500); t.remove();
+    addMsg('ai', reply); speak(reply); openWA(text); return;
   }
 
-  if (!CONFIG.ANTHROPIC_API_KEY || CONFIG.ANTHROPIC_API_KEY === 'YOUR_ANTHROPIC_API_KEY_HERE') {
-    const fb = `Thanks for reaching out! Add your Anthropic API key in the CONFIG to enable full AI responses. You can also contact directly via email below.`;
-    addMsg('ai', fb);
-    speak(fb);
-    return;
+  if (!CONFIG.GEMINI_API_KEY || CONFIG.GEMINI_API_KEY === 'YOUR_GEMINI_API_KEY_HERE') {
+    const fb = 'Please add your free Gemini API key in the CONFIG section. Get one at aistudio.google.com — no credit card needed.';
+    addMsg('ai', fb); speak(fb); return;
   }
 
-  const t = addThinking();
-  setStat('Thinking…');
+  const t = addThinking(); setStat('Thinking…');
+
+  const systemPrompt = `You are the AI voice assistant on ${CONFIG.OWNER_NAME}'s portfolio website. Help visitors learn about ${CONFIG.OWNER_NAME}'s work, skills, and availability. Keep ALL replies SHORT — 1 to 3 sentences max — since your words are spoken aloud. Be warm, confident, and professional. Portfolio info: ${CONFIG.BIO}. If someone wants to hire, collaborate with, or contact ${CONFIG.OWNER_NAME}, say you are opening WhatsApp for them right now.`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${CONFIG.GEMINI_API_KEY}`;
+
+    const res = await fetch(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': CONFIG.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 180,
-        system: `You are the AI voice assistant on ${CONFIG.OWNER_NAME}'s portfolio website.
-Help visitors learn about ${CONFIG.OWNER_NAME}'s work, skills, and availability.
-Keep ALL replies SHORT — 1 to 3 sentences — since your words are spoken aloud.
-Be warm, confident, and professional.
-
-Portfolio info:
-${CONFIG.BIO}
-
-If someone wants to hire, collaborate with, or contact ${CONFIG.OWNER_NAME}, tell them you're opening WhatsApp for them right now.`,
-        messages: [{ role: 'user', content: text }]
+        system_instruction: { parts: [{ text: systemPrompt }] },
+        contents: [{ role: 'user', parts: [{ text }] }],
+        generationConfig: { maxOutputTokens: 180, temperature: 0.75 }
       })
     });
+
     const data = await res.json();
     t.remove();
-    const reply = data?.content?.[0]?.text || 'connection problem please check your internet connection.';
-    addMsg('ai', reply);
-    speak(reply);
-    setStat('Ready');
+
+    if (data.error) {
+      console.error('Gemini error:', data.error);
+      let errMsg = data.error.message || 'Something went wrong with the AI.';
+      if (data.error.code === 400) errMsg = 'Invalid API key — double-check you copied it correctly from aistudio.google.com.';
+      if (data.error.code === 429) errMsg = 'Too many requests — wait a few seconds and try again.';
+      addMsg('ai', errMsg); speak(errMsg); setStat('Error');
+      return;
+    }
+
+    const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!reply) {
+      console.error('Unexpected Gemini response:', data);
+      addMsg('ai', 'Got an unexpected response — please try again.'); setStat('Error');
+      return;
+    }
+
+    addMsg('ai', reply); speak(reply); setStat('Ready');
+
   } catch(err) {
     t.remove();
-    const errMsg = 'Connection issue — please check your API key in the config.';
-    addMsg('ai', errMsg);
+    console.error('Fetch error:', err);
+    addMsg('ai', 'Network error — check your internet connection and try again.');
     setStat('Error');
-    console.error(err);
   }
 }
 
-/* ── Start / stop listening ── */
-function startListen() {
-  if (!recognition) return;
-  if (isSpeaking) { window.speechSynthesis.cancel(); isSpeaking=false; }
-  try { recognition.start(); } catch(e) {}
-}
-function stopListen() {
-  if (recognition && isListening) recognition.stop();
-}
+function startListen() { if(!recognition) return; if(isSpeaking){window.speechSynthesis.cancel();isSpeaking=false;} try{recognition.start();}catch(e){} }
+function stopListen()  { if(recognition&&isListening) recognition.stop(); }
 
-/* ── Toggle panel ── */
 function openPanel() {
-  panelOpen = true;
-  panel.classList.add('open');
-  if (log.children.length === 0) {
-    addMsg('ai', `Hi! I'm ${CONFIG.OWNER_NAME}'s AI assistant. Ask me anything, or say "I'd like to get in touch" to connect on WhatsApp instantly.`);
-    speak(`Hi! I'm ${CONFIG.OWNER_NAME}'s AI assistant.  Ask me anything, or say "I'd like to get in touch" to connect on WhatsApp instantly.`);
+  panelOpen=true; panel.classList.add('open');
+  if(log.children.length===0){
+    addMsg('ai',`Hi! I'm ${CONFIG.OWNER_NAME}'s AI assistant. Ask me anything, or say "I'd like to get in touch" to connect on WhatsApp instantly.`);
+    speak(`Hi! I'm ${CONFIG.OWNER_NAME}'s AI assistant. Ask me anything, or say I'd like to get in touch to connect on WhatsApp instantly.`);
   }
 }
 
-/* ── Events ── */
-orbBtn.addEventListener('click', () => {
-  if (!panelOpen) {
-    openPanel();
-    setTimeout(startListen, 500);
-  } else {
-    isListening ? stopListen() : startListen();
-  }
+orbBtn.addEventListener('click',()=>{
+  if(!panelOpen){openPanel();setTimeout(startListen,500);}
+  else{isListening?stopListen():startListen();}
 });
-
-closeBtn.addEventListener('click', e => {
-  e.stopPropagation();
-  stopListen();
-  window.speechSynthesis?.cancel();
-  panelOpen = false;
-  panel.classList.remove('open');
+closeBtn.addEventListener('click',e=>{
+  e.stopPropagation(); stopListen(); window.speechSynthesis?.cancel();
+  panelOpen=false; panel.classList.remove('open');
 });
-
-window.speechSynthesis?.addEventListener('voiceschanged', () => {});
+window.speechSynthesis?.addEventListener('voiceschanged',()=>{});
 </script>
 </body>
-</html>
+</html> 
+ -->
